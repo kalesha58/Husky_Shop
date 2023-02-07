@@ -13,15 +13,16 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 });
 // {========================GET_ALL_PRODCUTS===================}
 exports.getAllProducts = catchAsyncError(async (req, res) => {
-  const resultPerPage = 1;
-  const productCount = await Product.countDocuments();
+
+  const resultPerPage = 8;
+  const productsCount = await Product.countDocuments();
   const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
     .pagination(resultPerPage);
   // const products = await Product.find();
   const products = await apiFeature.query;
-  res.status(200).json({ success: true, products, productCount });
+  res.status(200).json({ success: true, products, productsCount });
 });
 
 // {========================UPDATE-PRODUCT----------ADMIN----------------===================}
