@@ -14,9 +14,10 @@ require("dotenv").config({ path: "backend/config/config.env" });
 // {=======================DATABASE-CONNECTIONS==========================}
 
 const port = process.env.PORT || 5000;
-connectDatabase();
-const server = app.listen(port, () => {
+
+const server =   app.listen  (port, async  () => {
   console.log(`Server is working on http://localhost:${port}`);
+  await connectDatabase();
 });
 
 // Unhandled Promise Rejection
