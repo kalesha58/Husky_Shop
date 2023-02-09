@@ -9,6 +9,7 @@ import { Rating } from "@mui/material";
 import ReviewCard from "./ReviewCard";
 import Loader from "../layout/Loader/Loader";
 import {useAlert} from "react-alert"
+import MetaData from "../layout/MetaData";
 const ProductDetails = () => {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
@@ -38,6 +39,7 @@ const ProductDetails = () => {
   <Fragment>
     {loading? <Loader/> :
       <Fragment>
+         <MetaData title={`${product.name} -- HuskyShop`} />
       <div className="ProductDetails">
         <div>
           <Carousel
@@ -60,6 +62,7 @@ const ProductDetails = () => {
         </div>
         <div>
           <div className="detailsBlock-1">
+
             <h2>{product.name}</h2>
             <p>product # {product._id}</p>
           </div>

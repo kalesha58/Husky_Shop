@@ -10,30 +10,40 @@ import {
   PRODUCT_DETAILS_SCCESS,
 } from "../Constants/productContstants";
 // {=====================================================GET-PRODUCT=========================}
-export const getProduct = () => async (dispatch) => {
-  try {
-    dispatch({type:ALL_PRODUCT_REQUEST});
-    const {data}=await axios.get("https://drab-cyan-squid-wrap.cyclic.app/api/v1/products")
-    dispatch({
-        type:ALL_PRODUCT_SCCESS,
-        payload:data
-    })
-  } catch (error) {
-    dispatch({
-      type: ALL_PRODUCT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+export const getProduct =
+  (keyword = "", currentPage = 1, price = [0, 25000],category,ratings=0) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCT_REQUEST });
+      let link = `http://localhost:5000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+      if(category){
+      let link = `http://localhost:5000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+
+     }
+      const { data } = await axios.get(link);
+
+      dispatch({
+        type: ALL_PRODUCT_SCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 // {=====================================================GET-PRODUCT-DETAILS===============================}
 export const getProductDetails = (id) => async (dispatch) => {
   try {
-    dispatch({type:PRODUCT_DETAILS_REQUEST});
-    const {data}=await axios.get(`https://drab-cyan-squid-wrap.cyclic.app/api/v1/product/${id}`)
+    dispatch({ type: PRODUCT_DETAILS_REQUEST });
+    const { data } = await axios.get(
+      `http://localhost:5000/api/v1/product/${id}`
+    );
     dispatch({
-        type:PRODUCT_DETAILS_SCCESS,
-        payload:data.product
-    })
+      type: PRODUCT_DETAILS_SCCESS,
+      payload: data.product,
+    });
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
@@ -43,5 +53,5 @@ export const getProductDetails = (id) => async (dispatch) => {
 };
 //=================================== CLEAR ERRORS=================
 export const clearErrors = () => async (dispatch) => {
-dispatch({type:CLEAR_ERRORS});
-}
+  dispatch({ type: CLEAR_ERRORS });
+};
