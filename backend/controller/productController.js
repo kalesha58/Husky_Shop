@@ -22,7 +22,7 @@ exports.getAllProducts = catchAsyncError(async (req, res) => {
     .pagination(resultPerPage);
   // const products = await Product.find();
   const products = await apiFeature.query;
-  res.status(200).json({ success: true, products, productsCount });
+  res.status(200).json({ success: true,products, productsCount,resultPerPage });
 });
 
 // {========================UPDATE-PRODUCT----------ADMIN----------------===================}

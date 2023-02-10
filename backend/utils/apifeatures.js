@@ -26,6 +26,7 @@ class ApiFeatures {
 
     // Filter For Price and Rating
 
+ 
     let queryStr = JSON.stringify(queryCopy);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
 
