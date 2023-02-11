@@ -10,8 +10,9 @@ import ProductDetails from "./component/Product/ProductDetails";
 import Products from "./component/Product/Products";
 import Search from "./component/Product/Search";
 import LoginSignup from "./component/User/LoginSignup";
-// import store from "./store"
-// import { loadUser } from "./Redux/Actions/userAction";
+import store from "./store"
+import { loadUser } from "./Redux/Actions/userAction";
+// import Cookies from 'js-cookie'
 
 function App() {
   
@@ -21,7 +22,9 @@ function App() {
           families: ["Roboto", "Droid Sans", "Chilanka"],
         },
       });
-      // store.dispatch(loadUser())
+      // let res=Cookies.get("token")
+      // let result=Cookies.get("user")
+      store.dispatch(loadUser())
 
     }, []);
   return (

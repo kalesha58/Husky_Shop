@@ -7,6 +7,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face";
 import { useAlert } from "react-alert";
+import Cookies from 'js-cookie'
 // {========REDUCERs&& Actions=================}
 import { useDispatch, useSelector } from "react-redux";
 import { login ,clearErrors, register} from "../../Redux/Actions/userAction";
@@ -14,7 +15,9 @@ import { login ,clearErrors, register} from "../../Redux/Actions/userAction";
 
 const LoginSignup = () => {
   const dispatch = useDispatch();
-const {loading,error,isAuthenticated,data} =useSelector(state=>state.user)
+const {loading,error,isAuthenticated,token,user} =useSelector(state=>state.user)
+// console.log(token)
+
 const navigate=useNavigate()
   const alert=useAlert()
   const loginTab = useRef(null);
@@ -33,13 +36,13 @@ const navigate=useNavigate()
    
   };
   //{=============================REGISTER--FORM===========================}
-  const [user, setUser] = useState({
+  const [users, setUsers] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const { name, email, password } = user;
+  const { name, email, password } = users;
   const registerSubmit = (e) => {
     e.preventDefault();
     const myForm = new FormData();
@@ -64,7 +67,7 @@ const navigate=useNavigate()
 
       reader.readAsDataURL(e.target.files[0]);
     } else {
-      setUser({ ...user, [e.target.name]: e.target.value });
+      setUsers({ ...user, [e.target.name]: e.target.value });
     }
   };
   const switchTabs = (e, tab) => {
@@ -86,14 +89,16 @@ const navigate=useNavigate()
 //   {=====================USE-Effect========================0}
 
 useEffect(()=>{
+  Cookies.set("token",token)
+  Cookies.set("user",user)
  if(error){
     alert.error(error)
     dispatch(clearErrors())
- }
+  }
  if(isAuthenticated){
     navigate("/account")
  }
-},[error,isAuthenticated,navigate,dispatch,alert])
+},[error,isAuthenticated,navigate,dispatch,alert,token])
 
   return (
     <Fragment>
