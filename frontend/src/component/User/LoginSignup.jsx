@@ -1,24 +1,24 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import "./LoginSignup.css";
 import Loader from "../layout/Loader/Loader";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face";
 import { useAlert } from "react-alert";
-import Cookies from 'js-cookie'
+
 // {========REDUCERs&& Actions=================}
 import { useDispatch, useSelector } from "react-redux";
 import { login ,clearErrors, register} from "../../Redux/Actions/userAction";
 
 
-const LoginSignup = () => {
+const LoginSignup = ({ history, location }) => {
   const dispatch = useDispatch();
-const {loading,error,isAuthenticated,token,user} =useSelector(state=>state.user)
+const {loading,error,isAuthenticated,token} =useSelector(state=>state.user)
 // console.log(token)
 
-const navigate=useNavigate()
+// const navigate=useNavigate()
   const alert=useAlert()
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -55,7 +55,7 @@ const navigate=useNavigate()
   };
   //   {================================================MAIN-THING=========================================}
   const registerDataChange = (e) => {
-    if (e.target.name == "avatar") {
+    if (e.target.name === "avatar") {
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -67,7 +67,7 @@ const navigate=useNavigate()
 
       reader.readAsDataURL(e.target.files[0]);
     } else {
-      setUsers({ ...user, [e.target.name]: e.target.value });
+      setUsers({ ...users, [e.target.name]: e.target.value });
     }
   };
   const switchTabs = (e, tab) => {
@@ -89,16 +89,16 @@ const navigate=useNavigate()
 //   {=====================USE-Effect========================0}
 
 useEffect(()=>{
-  Cookies.set("token",token)
-  Cookies.set("user",user)
+  // Cookies.set("token",token)
+  // Cookies.set("user",user)
  if(error){
     alert.error(error)
     dispatch(clearErrors())
   }
  if(isAuthenticated){
-    navigate("/account")
+  history.push("/account");
  }
-},[error,isAuthenticated,navigate,dispatch,alert,token])
+},[error,isAuthenticated,history,dispatch,alert,token])
 
   return (
     <Fragment>

@@ -6,9 +6,15 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT_FAIL,
+  LOGOUT_SUCCESS,
   REGISTER_USER_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
+  UPDATE_PASSWORD_RESET,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
 } from "../Constants/userConstant";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -19,7 +25,6 @@ export const userReducer = (state = { user: {} }, action) => {
       return {
         loading: true,
         isAuthenticated: false,
-        token: null,
       };
     case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
@@ -28,9 +33,7 @@ export const userReducer = (state = { user: {} }, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload.user,
-        token:action.payload.token
-     
+        user: action.payload,
       };
 
     case LOGIN_FAIL:
@@ -41,17 +44,69 @@ export const userReducer = (state = { user: {} }, action) => {
         isAuthenticated: false,
         user: null,
         error: action.payload,
-        token: null,
-    
       };
+
+    case LOGOUT_SUCCESS:
+      return {
+        loading: false,
+        user: null,
+        isAuthenticated: false,
+      };
+
     case LOAD_USER_FAIL:
       return {
         loading: false,
         isAuthenticated: false,
         user: null,
         error: action.payload,
-        token: null,
       };
+    case LOGOUT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+// {===========================PROFILE-REDUCER=================================}
+
+export const profileReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case UPDATE_PROFILE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+
+        isUpdated: action.payload,
+      };
+
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+
+        error: action.payload,
+      };
+case UPDATE_PASSWORD_RESET:
+  return{
+    ...state,
+    isUpdated:false,
+  }
     case CLEAR_ERRORS:
       return {
         ...state,
